@@ -1,1 +1,14 @@
-<input type="number" password />
+<style>.hide{-webkit-text-security:disc}</style>
+<script>
+const handleClick = (el) => {
+  if (el.innerText === "表示") {
+    el.innerText = "非表示";
+    document.getElementById("pswnum").className = "";
+  } else {
+    el.innerText = "表示";
+    document.getElementById("pswnum").className = "hide";
+  }
+}
+</script>
+<button onclick="handleClick(this)">非表示</button>
+<input id="pswnum" type="text" />
