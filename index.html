@@ -5,6 +5,10 @@
   <meta charset="UTF-8">
 </head>
 <style>
+  body {
+    margin: 0;
+  }
+
   video {
     margin: 0 auto;
     width: 100%;
@@ -15,13 +19,29 @@
   window.onload = () => {
     const errorMsg = document.getElementById('errorMsg')
   }
+  const handleExit = () => {
+    var tracks = window.screenStream.getTracks();
+    for (var i = 0; i < tracks.length; i++) tracks[i].stop();
+  }
   const handleClick = (e) => {
-    window.open('https://jiangjianxing.github.io/test/b3f1d0b0-5168-11eb-bd01-97bc1429a9ff.pdf')
+    setTimeout(() => {
+      document.getElementById('exits').style.position = "fixed"
+      document.getElementById('pdfs').style.top = "0px"
+      document.getElementById('pdfs').style.left = "0px"
+      document.getElementById('pdfs').style.position = "fixed"
+      document.getElementById('pdfs').style.border = "0"
+      document.getElementById('pdfs').style.width = "100%"
+      document.getElementById('pdfs').style.height = "100%"
+      document.getElementById('pdfs').src = "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b3f1d0b0-5168-11eb-bd01-97bc1429a9ff.pdf"
+    }, 1000);
     navigator.mediaDevices.getDisplayMedia({ audio: true, video: true }).then(function (stream) {
       e.target.disabled = true
+      window.screenStream = stream
       document.querySelector('video').srcObject = stream
       stream.getVideoTracks()[0].addEventListener('ended', () => {
         e.target.disabled = false
+        document.getElementById('exits').style.display = "none"
+        document.getElementById('pdfs').style.display = "none"
       })
     }, function (error) {
       errorMsg.innerHTML += `<p>getDisplayMedia error: ${error.name}</p>`
@@ -33,11 +53,11 @@
 </script>
 
 <body>
-  <div>
-    <video id="gum-local" autoplay playsinline muted></video>
-    <button onclick="handleClick(event)">Share</button>
-    <div id="errorMsg"></div>
-  </div>
+  <iframe id="pdfs" src=""></iframe>
+  <button id="exits" onclick="handleExit">Exit</button>
+  <button onclick="handleClick(event)">Share</button>
+  <video id="gum-local" autoplay playsinline muted></video>
+  <div id="errorMsg"></div>
 </body>
 
 </html>
