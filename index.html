@@ -18,7 +18,7 @@
   const handleClick = (e) => {
     navigator.mediaDevices.getDisplayMedia({ audio: true, video: true }).then(function (stream) {
       e.target.disabled = true
-      window.open('https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b3f1d0b0-5168-11eb-bd01-97bc1429a9ff.pdf')
+      window.open('https://jiangjianxing.github.io/test/b3f1d0b0-5168-11eb-bd01-97bc1429a9ff.pdf')
       document.querySelector('video').srcObject = stream
       stream.getVideoTracks()[0].addEventListener('ended', () => {
         e.target.disabled = false
