@@ -16,7 +16,14 @@
       line-height: 32px;
     }
   </style>
-  <script>window.onbeforeunload = function(e) {return "returnValue属性值的文字不能自定义，写不写都行的";};</script>
+  <script>
+    window.addEventListener("beforeunload", function (e) {
+  var confirmationMessage = "\\o/";
+
+  (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+  return confirmationMessage; //Webkit, Safari, Chrome etc.
+});
+  </script>
 </head>
 <body>
   <div>1</div>
