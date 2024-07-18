@@ -1,12 +1,21 @@
-<script>
-window.onload = () => {
-    const button = document.createElement('button');
-    button.innerText = "GetLocation";
-    button.onclick = function() {
-        navigator.geolocation.getCurrentPosition(function(position) {
-    alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
-})
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test location</title>
+    <script>
+    window.onload = () => {
+        const button = document.createElement('button');
+        button.innerText = "GetLocation";
+        button.onclick = function() {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+            })
+        }
+        document.body.append(button);
     }
-    document.body.append(button);
-}
-</script>
+    </script>
+</head>
+<body></body>
+</html>
