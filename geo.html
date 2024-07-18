@@ -10,10 +10,11 @@
         button.innerText = "GetLocation";
         button.onclick = function() {
             navigator.geolocation.getCurrentPosition(function(position) {
-                alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+                document.getElementsByTagName('pre')[0].innerHTML += "Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude + "\n";
             })
         }
         document.body.append(button);
+        document.body.append(document.createElement('pre'));
     }
     </script>
 </head>
