@@ -1,0 +1,12 @@
+<script>
+window.onload = () => {
+    const button = document.createElement('button');
+    button.innerText = "GetLocation";
+    button.onclick = function() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+    alert("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+})
+    }
+    document.body.append(button);
+}
+</script>
