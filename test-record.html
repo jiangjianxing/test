@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>录音示例</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>录音示例</h1>
+    <button id="recordButton">开始录音</button>
+    <button id="stopButton" disabled>停止录音</button>
+    <h2>录音文件</h2>
+    <audio id="audioPlayback" controls></audio>
+
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script>
+		// scripts.js
+		let recorder;
+		let audioChunks = [];
+		
+		const recordButton = document.getElementById('recordButton');
+		const stopButton = document.getElementById('stopButton');
+		const audioPlayback = document.getElementById('audioPlayback');
+		
+		recordButton.addEventListener('click', async () => {
+		    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+		        alert('当前浏览器不支持录音功能，请使用最新版本的Chrome或Firefox浏览器。');
+		        return;
+		    }
+		    
+		    try {
+		        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+		        recorder = RecordRTC(stream, {
+		            type: 'audio',
+		            mimeType: 'audio/wav',
+		            audioBitsPerSecond: 128000,
+		            desiredSampRate: 16000,
+		            recorderType: StereoAudioRecorder,
+		            numberOfAudioChannels: 1
+		        });
+		        recorder.startRecording();
+		        recordButton.disabled = true;
+		        stopButton.disabled = false;
+		    } catch (err) {
+		        alert('无法访问麦克风，请检查浏览器的权限设置。');
+		        console.error('Error accessing microphone: ', err);
+		    }
+		});
+		
+		stopButton.addEventListener('click', () => {
+		    if (recorder) {
+		        recorder.stopRecording(() => {
+		            const audioBlob = recorder.getBlob();
+		            const audioUrl = URL.createObjectURL(audioBlob);
+		            audioPlayback.src = audioUrl;
+		        });
+		        recordButton.disabled = false;
+		        stopButton.disabled = true;
+		    }
+		});
+
+		
+	</script>
+</body>
+</html>
