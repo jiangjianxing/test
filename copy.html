@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy and Read Clipboard</title>
+    <script>
+        function copyToClipboard() {
+            const text = "111222333";
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Text copied to clipboard: " + text);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
+
+        function readFromClipboard() {
+            navigator.clipboard.readText().then(text => {
+                alert("Clipboard contents: " + text);
+            }).catch(err => {
+                console.error("Failed to read clipboard: ", err);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="copyToClipboard()">Copy Text</button>
+    <button onclick="readFromClipboard()">Read Clipboard</button>
+</body>
+</html>
