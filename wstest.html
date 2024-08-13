@@ -1,0 +1,20 @@
+
+<script>
+const socket = new WebSocket("ws://miniapp-dev-alb-846905780.ap-northeast-1.elb.amazonaws.com:8085/websocket");
+
+// Connection opened
+socket.addEventListener("open", function (event) {
+  document.write('Websocket Connected');
+  socket.send("Hello Server! - 0 second");
+  let i = 0;
+  setInterval(function () {
+    i += 1;
+    socket.send("Hello Server! - " + 7 * i + " second");
+  }, 7000)
+});
+
+// Listen for messages
+socket.addEventListener("message", function (event) {
+  alert("Message from server is '" + event.data + "'");
+});
+</script>
