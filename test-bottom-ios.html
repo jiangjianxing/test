@@ -3,7 +3,9 @@
 <style>*{margin:0}</style>
 <script>
     function f() {
-        document.body.innerHTML+="<div><button onclick=\"f();\" >Add</button></div>"
+        for (let i = 0; i < 100; i++) {
+            document.body.innerHTML+="<div><button onclick=\"f();\" >Add</button></div>"
+        }
     }
 </script>
 <body>
