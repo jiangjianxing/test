@@ -1,0 +1,29 @@
+<meta charset="UTF-8">
+<div><a download="myflower.mp4" href="./flower.mp4">以myflower.mp4为文件名下载./flower.mp4</a></div>
+<div><a download href="./flower.mp4">下载./flower.mp4</a></div>
+<div><a href="./flower.mp4">打开./flower.mp4</a></div>
+<div><a onclick="ff();">下载线上myflower.mp4</a></div>
+<div><a onclick="ff2();">地图</a></div>
+<div><a onclick="ff3();">地图</a></div>
+<div><a onclick="ff4();">地图</a></div>
+<script>
+const ff2 = () => {location.href="maps://?q=xxx&ll=31.198422,121.290114";}；
+const ff3 = () => {location.href="maps://?daddr=(34.072942%2C%20134.547508)&dirflg=d";}；
+const ff4 = () => {location.href="maps://?q=%E6%95%B0%E5%AD%97%E5%A4%A9%E5%A0%82&ll=34.072942%2C134.547508";}；
+const ff = () => {
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4', true);
+xhr.responseType = 'blob';
+xhr.send();
+xhr.onload = function() {
+    if (xhr.status === 200) {
+        var imgURL = URL.createObjectURL(xhr.response);
+        var a = document.createElement('a');
+        a.href = imgURL;
+        a.download = 'myflower.mp4';
+        a.click();
+    }
+};
+};
+
+</script>
