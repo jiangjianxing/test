@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script type="text/javascript">
+  (function(a,b,c,d) {
+      a='https://tags.tiqcdn.com/utag/musashinobank/main/prod/utag.js';
+      b=document;c='script';d=b.createElement(c);d.src=a;
+      d.type='text/java'+c;d.async=true;
+      a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a)})();
+</script>
+    <div><button onclick="alert(location.href)">GetLocation</button></div>
+    <div><button onclick="location.href=(document.getElementById('tx1').value)">Jump</button></div>
+    <div><textarea id="tx1" style="width: 90%" oninput="document.getElementById('if1').src=document.getElementById('tx1').value"></textarea></div>
+    <div>iframe</div>
+    <div><iframe id="if1"></iframe></div>
+</body>
+</html>
