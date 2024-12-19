@@ -2,7 +2,17 @@
 <script>
 const smooth = () => {
     window.open('https://baidu.com');
-    prompt('123', '456');
+    console.log(prompt('123', '456'));
+}
+const smooth1 = () => {
+    window.open('https://baidu.com');
+    console.log(confirm('123'));
+}
+const smooth2 = () => {
+    window.open('https://baidu.com');
+    console.log(alert('123'));
 }
 </script>
-<button onclick="smooth()">test</button></div>
+<button onclick="smooth()">testp</button></div>
+<button onclick="smooth1()">testc</button></div>
+<button onclick="smooth2()">testa</button></div>
