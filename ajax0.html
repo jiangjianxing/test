@@ -1,0 +1,32 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+const smooth = () => {
+    window.open('https://baidu.com');
+    console.log(prompt('123', '456'));
+}
+const smooth1 = () => {
+    window.open('https://baidu.com');
+    console.log(confirm('123'));
+}
+const smooth2 = () => {
+    window.open('https://baidu.com');
+    console.log(alert('123'));
+}
+const smooth3 = () => {
+    window.open('https://baidu.com');
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("GET","http://httpbin.org/delay/10",false);
+	xmlhttp.send();
+}
+</script>
+<button onclick="smooth()">testp</button></div>
+<button onclick="smooth1()">testc</button></div>
+<button onclick="smooth2()">testa</button></div>
+<button onclick="smooth3()">testAJAX</button></div>
