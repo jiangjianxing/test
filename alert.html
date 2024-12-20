@@ -12,7 +12,14 @@ const smooth2 = () => {
     window.open('https://baidu.com');
     console.log(alert('123'));
 }
+const smooth3 = () => {
+    window.open('https://baidu.com');
+    setTimeout(() => {
+        console.log(alert('123'));
+    }, 2000);
+}
 </script>
 <button onclick="smooth()">testp</button></div>
 <button onclick="smooth1()">testc</button></div>
 <button onclick="smooth2()">testa</button></div>
+<button onclick="smooth2()">testa-timeout</button></div>
