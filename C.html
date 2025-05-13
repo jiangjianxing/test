@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B</title>
+  <title>C</title>
   <script>
     const ajaxTest = () => {
       const xhr = new XMLHttpRequest();
-      const url = document.getElementById("url0").value || 'https://ba-dev.scskminiapp.com:8100/';
+      const url = document.getElementById("url0").value || 'https://httpbin.org/response-headers?Access-Control-Allow-Origin=' + location.origin + '&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token';
       const method = document.getElementById("method0").value || 'POST';
       xhr.open(method, url);
       xhr.onreadystatechange = function () {
@@ -20,7 +20,7 @@
       xhr.send("{}")
     }
     const fetchTest = () => {
-      const url = document.getElementById("url0").value || 'https://ba-dev.scskminiapp.com:8100/';
+      const url = document.getElementById("url0").value || 'https://httpbin.org/response-headers?Access-Control-Allow-Origin=' + location.origin + '&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token';
       const method = document.getElementById("method0").value || 'POST';
       fetch(url, {
         "body": "{}",
@@ -33,7 +33,7 @@
 </head>
 <body>
   <h1>UnSafe(other Site)</h1>
-  <p>url: <input id="url0" placeholder="https://ba-dev.scskminiapp.com:8100/" /></p>
+  <p>url: <input id="url0" placeholder="https://httpbin.org/response-headers?Access-Control-Allow-Origin={{location.origin}}&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token" /></p>
   <p>method: <input id="method0" placeholder="POST" /></p>
   <button onclick="ajaxTest()">Test AJAX</button>
   <button onclick="fetchTest()">Test fetch</button>
