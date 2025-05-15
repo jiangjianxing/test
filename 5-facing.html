@@ -1,0 +1,17 @@
+<script>
+  window.onload = () => {
+      const video = document.createElement('video');
+      video.autoplay = true;
+      video.muted = true;
+      document.body.append(video);
+      const button1 = document.createElement('button');
+      button1.onclick = () => navigator.mediaDevices.getUserMedia({video: { facingMode: "user" } }).then(stream => video.srcObject = stream);
+      button1.innerText = "user";
+      document.body.append(button1);
+      const button2 = document.createElement('button');
+      button2.onclick = () => navigator.mediaDevices.getUserMedia({video: { facingMode: "environment" } }).then(stream => video.srcObject = stream);
+      button2.innerText = "environment";
+      document.body.append(button2);
+      
+  }
+</script>

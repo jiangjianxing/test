@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gyroscope Example</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .output {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <button id="gyroButton">Enable Gyroscope</button>
+    <div class="output" id="output"></div>
+
+    <script>
+        const button = document.getElementById('gyroButton');
+        const output = document.getElementById('output');
+
+        button.addEventListener('click', async () => {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                try {
+                    const permissionState = await DeviceOrientationEvent.requestPermission();
+                    if (permissionState === 'granted') {
+                        window.addEventListener('deviceorientation', handleOrientation, true);
+                    } else {
+                        output.innerHTML = 'Permission denied';
+                    }
+                } catch (e) {
+                    output.innerHTML = 'Failed to request permission';
+                }
+            } else {
+                if (window.DeviceOrientationEvent) {
+                    window.addEventListener('deviceorientation', handleOrientation, true);
+                } else {
+                    output.innerHTML = 'Your device does not support Device Orientation';
+                }
+            }
+        });
+
+        function handleOrientation(event) {
+            const alpha = event.alpha;
+            const beta = event.beta;
+            const gamma = event.gamma;
+
+            output.innerHTML = `
+                Alpha (Z-axis rotation): ${alpha.toFixed(2)}<br>
+                Beta (X-axis rotation): ${beta.toFixed(2)}<br>
+                Gamma (Y-axis rotation): ${gamma.toFixed(2)}
+            `;
+        }
+    </script>
+</body>
+</html>

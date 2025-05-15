@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B</title>
+  <script>
+    const ajaxTest = () => {
+      const xhr = new XMLHttpRequest();
+      const url = document.getElementById("url0").value || 'http://httpbin.org/response-headers?Access-Control-Allow-Origin=' + location.origin + '&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token';
+      const method = document.getElementById("method0").value || 'POST';
+      xhr.open(method, url);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            document.getElementById("result0").innerText += xhr.responseText + "\n"
+          }
+        }
+      }
+      xhr.send("{}")
+    }
+    const fetchTest = () => {
+      const url = document.getElementById("url0").value || 'http://httpbin.org/response-headers?Access-Control-Allow-Origin=' + location.origin + '&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token';
+      const method = document.getElementById("method0").value || 'POST';
+      fetch(url, {
+        "body": "{}",
+        "method": method
+      }).then(res => res.text()).then(text => {
+        document.getElementById("result1").innerText += text + "\n"
+      });
+    }
+  </script>
+</head>
+<body>
+  <h1>HTTP(B.html)</h1>
+  <p>url: <input id="url0" placeholder="http://httpbin.org/response-headers?Access-Control-Allow-Origin={{location.origin}}&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token" /></p>
+  <p>method: <input id="method0" placeholder="POST" /></p>
+  <button onclick="ajaxTest()">Test AJAX</button>
+  <button onclick="fetchTest()">Test fetch</button>
+  <p>Ajax result here:</p>
+  <pre id="result0"></pre>
+  <p>fetch result here:</p>
+  <pre id="result1"></pre>
+</body>
+</html>

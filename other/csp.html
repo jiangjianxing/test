@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="script-src 'unsafe-inline'">
+    </head>
+    <body>
+        <script>
+
+            var passed = false;
+
+            try {
+                eval('true');
+            } catch(e) {
+                passed = true;
+            }
+
+            if (window.top.postMessage) {
+                window.top.postMessage('csp10:' + (passed ? 'passed' : 'failed'), '*');
+            }
+
+        </script>
+    </body>
+</html>

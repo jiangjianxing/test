@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexedDB Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: #666; }
+    </style>
+</head>
+<body>
+    <h1>IndexedDB Test</h1>
+    
+    <button onclick="checkIDBSupport()">Check Support</button>
+    <button onclick="openDatabase()">Open DB</button>
+    <button onclick="addData()">Add Test Data</button>
+    <button onclick="readData()">Read Data</button>
+    <button onclick="clearData()">Clear Data</button>
+    <button onclick="clearLog()">Clear Log</button>
+    
+    <div id="status"></div>
+
+    <script>
+        let db;
+        const dbName = 'testDB';
+        const storeName = 'testStore';
+        
+        function log(message, className = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML += `<div class="${className}">${new Date().toLocaleTimeString()}: ${message}</div>`;
+        }
+
+        function checkIDBSupport() {
+            if (!('indexedDB' in window)) {
+                log('IndexedDB is not supported in this browser', 'error');
+            } else {
+                log('IndexedDB is supported', 'success');
+            }
+        }
+
+        function openDatabase() {
+            const request = indexedDB.open(dbName, 1);
+
+            request.onerror = (event) => {
+                log(`Database error: ${event.target.error}`, 'error');
+            };
+
+            request.onsuccess = (event) => {
+                db = event.target.result;
+                log('Database opened successfully', 'success');
+            };
+
+            request.onupgradeneeded = (event) => {
+                db = event.target.result;
+                if (!db.objectStoreNames.contains(storeName)) {
+                    db.createObjectStore(storeName, { keyPath: 'id' });
+                    log('Object store created', 'success');
+                }
+            };
+        }
+
+        function addData() {
+            if (!db) {
+                log('Database not opened', 'error');
+                return;
+            }
+
+            const transaction = db.transaction(storeName, 'readwrite');
+            const store = transaction.objectStore(storeName);
+            
+            const data = {
+                id: Date.now(),
+                message: 'Hello IndexedDB'
+            };
+
+            const request = store.add(data);
+
+            request.onsuccess = () => {
+                log(`Data added with ID: ${data.id}`, 'success');
+            };
+
+            request.onerror = (event) => {
+                log(`Error adding data: ${event.target.error}`, 'error');
+            };
+        }
+
+        function readData() {
+            if (!db) {
+                log('Database not opened', 'error');
+                return;
+            }
+
+            const transaction = db.transaction(storeName, 'readonly');
+            const store = transaction.objectStore(storeName);
+            const request = store.getAll();
+
+            request.onsuccess = (event) => {
+                const data = event.target.result;
+                if (data.length > 0) {
+                    log(`Found ${data.length} records:`, 'success');
+                    data.forEach(record => {
+                        log(`ID: ${record.id}, Message: ${record.message}`);
+                    });
+                } else {
+                    log('No records found', 'info');
+                }
+            };
+
+            request.onerror = (event) => {
+                log(`Error reading data: ${event.target.error}`, 'error');
+            };
+        }
+
+        function clearData() {
+            if (!db) {
+                log('Database not opened', 'error');
+                return;
+            }
+
+            const transaction = db.transaction(storeName, 'readwrite');
+            const store = transaction.objectStore(storeName);
+            const request = store.clear();
+
+            request.onsuccess = () => {
+                log('All data cleared from object store', 'success');
+            };
+
+            request.onerror = (event) => {
+                log(`Error clearing data: ${event.target.error}`, 'error');
+            };
+        }
+
+        function clearLog() {
+            document.getElementById('status').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy and Read Clipboard</title>
+    <script src="./clipboard.min.js"></script>
+    <script>
+        function copyToClipboard2() {
+            const input = document.createElement('input')
+            document.body.appendChild(input)
+            input.value='111111111112'
+            input.focus()
+            input.setSelectionRange(0, input.value.length)
+            document.execCommand('copy')
+            document.body.removeChild(input)
+        }
+
+        function copyToClipboard() {
+            const text = "111222333";
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Text copied to clipboard: " + text);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
+
+        function readFromClipboard() {
+            navigator.clipboard.readText().then(text => {
+                alert("Clipboard contents: " + text);
+            }).catch(err => {
+                console.error("Failed to read clipboard: ", err);
+            });
+        }
+    </script>
+</head>
+<body>
+    <button onclick="copyToClipboard2()">
+        (New-2)Copy to clipboard
+    </button>
+    <button data-clipboard-text="Just because you can doesn't mean you should — clipboard.js">
+        (New-1)Copy to clipboard
+    </button>
+    <button onclick="copyToClipboard()">Copy Text</button>
+    <button onclick="readFromClipboard()">Read Clipboard</button>
+</body>
+</html>

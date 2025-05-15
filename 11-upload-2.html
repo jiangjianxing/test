@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多文件上传示例</title>
+</head>
+<body>
+    外部服务、私密文件请勿上传！
+    <input id="fileInput" type="file" multiple>
+    <button onclick="uploadFiles()">上传文件</button>
+
+    <script>
+        async function uploadFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+
+            if (files.length === 0) {
+                alert('请选择至少一个文件！');
+                return;
+            }
+
+            const formData = new FormData();
+            for (const file of files) {
+                formData.append('data', file);
+            }
+
+            try {
+                const response = await fetch('https://unidemo.dcloud.net.cn/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('文件上传成功！');
+                    response.json().then(json => {
+                        alert(JSON.stringify({ size: json.files.data.size }));
+                    })
+                } else {
+                    alert('文件上传失败，请重试。');
+                }
+            } catch (error) {
+                console.error('上传出错：', error);
+            }
+        }
+    </script>
+</body>
+</html>

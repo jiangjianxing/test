@@ -1,0 +1,9 @@
+<script>
+window.onload = () => {
+    const video = document.createElement('video');
+    video.autoplay = true;
+    video.muted = true;
+    document.body.append(video);
+    navigator.mediaDevices.getUserMedia({video: true}).then(stream => video.srcObject = stream)
+}
+</script>

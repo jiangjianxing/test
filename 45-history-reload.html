@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History and Reload</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 8px 12px; margin: 5px; cursor: pointer; }
+        .state-info { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="state-info">
+            <p>URL: <span id="current-url"></span></p>
+        </div>
+
+        <div class="test-section">
+            <div><input type="text" value="ABCDEF" /></div>
+        </div>
+
+        <div class="test-section">
+            <h2>传统跳转</h2>
+            <div><a href="/" target="_blank">跳转到首页（新窗口）</a></div>
+            <div><a href="/">跳转到首页</a></div>
+            <button onclick="location.reload()">刷新</button>
+        </div>
+
+        <div class="test-section">
+            <h2>history路由变换</h2>
+            <button onclick="pushStatePage('page2')">新增页</button>
+            <button onclick="replaceStatePage('replaced')">替换当前页</button>
+            <button onclick="history.back()">后退</button>
+            <button onclick="history.forward()">前进</button>
+        </div>
+    </div>
+
+    <script>
+        function updatePageInfo() {
+            document.getElementById('current-url').textContent = window.location.href;
+            document.getElementById('history-state').textContent = JSON.stringify(history.state);
+        }
+
+        function pushStatePage(page) {
+            const state = { page, timestamp: Date.now() };
+            history.pushState(state, `Page ${page}`, `/${page}`);
+            updatePageInfo();
+        }
+
+        function replaceStatePage(page) {
+            const state = { page, timestamp: Date.now() };
+            history.replaceState(state, `Replaced ${page}`, `/${page}`);
+            updatePageInfo();
+        }
+
+        window.addEventListener('popstate', (event) => {
+            console.log('popstate event:', event.state);
+            updatePageInfo();
+        });
+
+        window.addEventListener('load', () => {
+            console.log('Page loaded:', performance.timing.loadEventEnd);
+            updatePageInfo();
+        });
+    </script>
+</body>
+</html>

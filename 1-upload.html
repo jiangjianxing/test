@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-upload</title>
+</head>
+<body>
+    <div>外部服务、私密文件请勿上传！</div>
+    <div>普通文件<form method="post" enctype="multipart/form-data" action="https://unidemo.dcloud.net.cn/upload"><input id="data" name="data" type="file" /><input type="submit" value="Upload" /></form></div>
+    <div>相机文件<form method="post" enctype="multipart/form-data" action="https://unidemo.dcloud.net.cn/upload"><input id="data" name="data" type="file" capture="environment" /><input type="submit" value="Upload" /></form></div>
+    <div>获取图片文件并上传<form method="post" enctype="multipart/form-data" action="https://unidemo.dcloud.net.cn/upload"><input id="data" name="data" type="file" accept="image/*" /><input type="submit" value="Upload" /></form></div>
+</body>
+</html>

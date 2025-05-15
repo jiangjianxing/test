@@ -1,0 +1,11 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+    window.onload = () => {
+        var B = document.createElement("a");
+        B.href = URL.createObjectURL(new Blob([`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="currentColor" d="M7.5 14a6.5 6.5 0 1 0 0-13a6.5 6.5 0 0 0 0 13M12 6v3H3V6z"></path></svg>`],{type: 'image/svg+xml'}));
+        B.download = "test.svg";
+        document.body.appendChild(B);
+        B.innerText="DownloadSVG";
+        B.click();
+    }
+</script>
