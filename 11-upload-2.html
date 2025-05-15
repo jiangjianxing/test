@@ -4,43 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>多文件上传示例</title>
+    <style>
+        #progressBarContainer {
+            margin-top: 10px;
+            width: 100%;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #progressBar {
+            height: 24px;
+            width: 0%;
+            background-color: #4CAF50;
+            text-align: left;
+            line-height: 24px;
+            color: white;
+            transition: width 0.3s;
+        }
+        #phaseIndicator {
+            position: absolute;
+            right: 10px;
+            top: 0;
+            line-height: 24px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     外部服务、私密文件请勿上传！
     <input id="fileInput" type="file" multiple>
     <button onclick="uploadFiles()">上传文件</button>
+    <div id="progressBarContainer">
+        <div id="progressBar">0%</div>
+        <div id="phaseIndicator">等待开始</div>
+    </div>
 
     <script>
-        async function uploadFiles() {
+        function uploadFiles() {
             const fileInput = document.getElementById('fileInput');
             const files = fileInput.files;
-
+            const progressBar = document.getElementById('progressBar');
+            const phaseIndicator = document.getElementById('phaseIndicator');
+            
             if (files.length === 0) {
                 alert('请选择至少一个文件！');
                 return;
             }
-
-            const formData = new FormData();
-            for (const file of files) {
-                formData.append('data', file);
+            const blobParts = [];
+            for (let i = 0; i < files.length; i++) {
+                blobParts.push(files[i]);
             }
-
             try {
-                const response = await fetch('https://unidemo.dcloud.net.cn/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
+                const combinedBlob = new Blob(blobParts, { type: 'application/octet-stream' });
 
-                if (response.ok) {
-                    alert('文件上传成功！');
-                    response.json().then(json => {
-                        alert(JSON.stringify({ size: json.files.data.size }));
-                    })
-                } else {
-                    alert('文件上传失败，请重试。');
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', 'https://httpbin.org/put', true);
+                xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+                xhr.setRequestHeader('X-File-Count', files.length);
+
+                let uploadComplete = false;
+                const totalUploadSize = combinedBlob.size;
+                let totalDownloadSize = 0;
+
+                xhr.upload.onprogress = function(event) {
+                    if (!uploadComplete) {
+                        const percent = Math.min(70, (event.loaded / event.total) * 70);
+                        progressBar.style.width = percent + '%';
+                        progressBar.textContent = Math.round(percent) + '%';
+                        phaseIndicator.textContent = `上传中 (${(event.loaded/1024/1024).toFixed(1)}/${(event.total/1024/1024).toFixed(1)}MB)`;
+                    }
+                };
+
+                xhr.onprogress = function(e) {
+                    if (uploadComplete && e.lengthComputable) {
+                        const downloadPercent = (e.loaded / e.total) * 30;
+                        const totalPercent = 70 + downloadPercent;
+                        progressBar.style.width = totalPercent + '%';
+                        progressBar.textContent = Math.round(totalPercent) + '%';
+                        phaseIndicator.textContent = `接收响应 (${(e.loaded/1024).toFixed(1)}/${(e.total/1024).toFixed(1)}KB)`;
+                    }
+                };
+
+                xhr.onloadstart = function() {
+                    phaseIndicator.textContent = '初始化连接...';
+                };
+
+                function calculateOriginalSize(base64String) {
+                    let padding = 0;
+                    const len = base64String.length;
+                    if (len > 0 && base64String[len-1] === '=') {
+                        padding = base64String[len-2] === '=' ? 2 : 1;
+                    }
+                    
+                    return (base64String.length - padding - 37) * 3 >> 2;
                 }
+
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        alert('文件上传成功！');
+                        const response = JSON.parse(xhr.responseText);
+                        alert(JSON.stringify({ size: calculateOriginalSize(response.data) }));
+                    } else {
+                        alert('文件上传失败，请重试。');
+                    }
+                }
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        phaseIndicator.textContent = '解析数据...';
+                    }
+                };
+
+                xhr.upload.onloadend = function() {
+                    uploadComplete = true;
+                    phaseIndicator.textContent = '等待服务器响应...';
+                };
+
+                xhr.onerror = function() {
+                    alert('上传过程中发生错误');
+                };
+
+                xhr.send(combinedBlob);
             } catch (error) {
                 console.error('上传出错：', error);
+                alert('上传过程中发生错误');
             }
         }
     </script>
