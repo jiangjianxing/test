@@ -23,7 +23,6 @@
       const url = document.getElementById("url0").value || 'http://httpbin.org/response-headers?Access-Control-Allow-Origin=' + location.origin + '&Access-Control-Allow-Methods=GET, POST, PUT, DELETE, OPTIONS&Access-Control-Allow-Headers=token';
       const method = document.getElementById("method0").value || 'POST';
       fetch(url, {
-        "body": "{}",
         "method": method
       }).then(res => res.text()).then(text => {
         document.getElementById("result1").innerText += text + "\n"
