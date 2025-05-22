@@ -153,7 +153,16 @@
             output.textContent += `:\nx: ${playerX}, y: ${playerY}`;
             e.preventDefault();
         }
-        output.textContent += `\n\n${JSON.stringify(e,(_,v)=>typeof v==="object" ? Object.keys(Object.getPrototypeOf(v)).reduce((o,k)=>(o[k]=v[k],o),{...v}):v)}`;
+        function classToJson(instance) {
+            const jsonObj = {};
+            for (const key in instance) {
+                if (typeof instance[key] !== 'function') {
+                jsonObj[key] = instance[key];
+                }
+            }
+            return JSON.stringify(jsonObj);
+        }
+        output.textContent += `\n\n${JSON.stringify(e,(_,v)=>typeof v==="object" ? Object.keys(Object.getPrototypeOf(v)).reduce((o,k)=>(o[k]=v[k],o),Object.assign({}, v ? Array.apply(null, v).map(classToJson) : {})):v)}`;
     }
 
     // GAMEPAD
