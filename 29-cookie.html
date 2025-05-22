@@ -12,7 +12,7 @@
     <h2>Cookie</h2>
     
     <div>
-        <button onclick="setLocalCookie()">1. 设置本地Cookie</button>
+        <button onclick="setLocalCookie()">1. 设置本地Cookie（300000秒）</button>
         <button onclick="showLocalCookie()">2. 查看本地Cookie</button>
     </div>
 
@@ -25,7 +25,7 @@
 
     <script>
         function setLocalCookie() {
-            const expires = new Date(Date.now() + 60000);
+            const expires = new Date(Date.now() + 300000);
             document.cookie = `local_test=Cookie_${Date.now()}; expires=${expires.toUTCString()}; path=/`;
             showLocalCookie();
         }
@@ -36,7 +36,7 @@
         }
 
         async function setHttpbinCookie() {
-            const expires = new Date(Date.now() + 60000);
+            const expires = new Date(Date.now() + 300000);
             try {
                 await fetch(`https://httpbin.org/response-headers?Set-Cookie=httpbin_cookie=${Date.now()}; expires=${expires.toUTCString()}; SameSite=None; Secure;`, {
                     credentials: 'include',
