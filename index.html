@@ -1,50 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
-  <title>H5</title>
-  <style>div { margin: 15px 0 }</style>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=2.0,user-scalable=yes">
+  <style>
+    * { background: black; }
+    input {
+      display: block;
+      width: 100%;
+      height: 32px;
+      padding: 0 10px;
+      margin: 0;
+      box-sizing: border-box;
+      border: solid 1px #d4d4d4;
+      background: #fff;
+      line-height: 32px;
+    }
+  </style>
+  <script>window.addEventListener('beforeunload', (event) => {
+  // Cancel the event as stated by the standard.
+  event.preventDefault();
+  // Chrome requires returnValue to be set.
+  event.returnValue = '';
+});
+  </script>
 </head>
-
 <body>
-  <h1>H5 Native API Testing</h1>
-  <div>[1]<a href="1-upload.html">1-upload.html</a></div>
-  <div>[2]<a href="2-photo.html">2-photo.html</a></div>
-  <div>[3]<a href="3-camera.html">3-camera.html</a></div>
-  <div>[4]<a href="5-facing.html">5-facing.html</a></div>
-  <div>[5]<a href="6-only-camera.html">6-only-camera.html</a></div>
-  <div>[6]<a href="7-ajax-fetch.html">7-ajax-fetch.html</a></div>
-  <div>[7]<a href="10-google-map-iframe.html">10-google-map-iframe.html</a></div>
-  <div>[8]<a href="11-upload-2.html">11-upload-2.html</a></div>
-  <div>[9]<a href="12-blob-download.html">12-blob-download.html</a></div>
-  <div>[10]<a href="15-google-map.html">15-google-map.html</a></div>
-  <div>[11]<a href="16-only-location.html">16-only-location.html</a></div>
-  <div>[12]<a href="17-device-orientation.html">17-device-orientation.html</a></div>
-  <div>[13]<a href="20-modal.html">20-modal.html</a></div>
-  <div>[14]<a href="26-clipboard.html">26-clipboard.html</a></div>
-  <div>[15]<a href="28-local-storage.html">28-local-storage.html</a></div>
-  <div>[16]<a href="29-cookie.html">29-cookie.html</a></div>
-  <div>[17]<a href="30-websocket.html">30-websocket.html</a></div>
-  <div>[18]<a href="32-canvas.html">32-canvas.html</a></div>
-  <div>[19]<a href="36-svg.html">36-svg.html</a></div>
-  <div>[20]<a href="39-indexed-db.html">39-indexed-db.html</a></div>
-  <div>[21]<a href="41-drap-and-move.html">41-drap-and-move.html</a></div>
-  <div>[22]<a href="45-history-reload.html">45-history-reload.html</a></div>
-  <div>[23]<a href="path/58-path.html">path/58-path.html</a></div>
-  <div>[24]<a href="60-scrollTo.html">60-scrollTo.html</a></div>
-  <div>----------</div>
-  <div><a href="path/62-http-path.html">path/62-http-path.html</a></div>
-  <div><a href="flower.mp4">flower.mp4</a></div>
-  <div><a href="flower.webm">flower.webm</a></div>
-  <div><a href="free-madp.html">free-madp.html</a></div>
-  <div><a href="/">index.html</a></div>
-  <div><a href="life.html">life.html</a></div>
-  <div><a href="ua-test.html">ua-test.html</a></div>
-  <div><a href="uri.html">uri.html</a></div>
-  <div><a href="utf8-default-test.html">utf8-default-test.html</a></div>
-  <div><a href="video-auto-play.html">video-auto-play.html</a></div>
-
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+  <div>5</div>
+  <div>6</div>
+  <div>7</div>
+  <div>8</div>
+  <div>9</div>
+  <div>10</div>
+  <div>11</div>
+  <div>12</div>
+  <div>13</div>
+  <div>14</div>
+  <div>15</div>
+  <div>16</div>
+  <div>17</div>
+  <div>18</div>
+  <div>19</div>
+  <div>20</div>
+  <div>21</div>
+  <div>22</div>
+  <div>23</div>
+  <div>24</div>
+  <div>25</div>
+  <div>26</div>
+  <div>27</div>
+  <div>28</div>
+  <div>29</div>
+  <div>30</div>
+  <div>31</div>
+  <div>32</div>
+  <div>33</div>
+  <div>34</div>
+  <div>35</div>
+  <div>36</div>
+  <div>37</div>
+  <div>38</div>
+  <div>39</div>
+  <div>40</div>
+  <div>41</div>
+  <div>42</div>
+  <div>43</div>
+  <div>44</div>
+  <div>45</div>
+  <div>46</div>
+  <div>47</div>
+  <div>48</div>
+  <div>49</div>
+  <div>50</div>
+  <div>51</div>
+  <div>52</div>
+  <div>53</div>
+  <div>54</div>
+  <div>55</div>
+  <input type="text" />
+  <div>56</div>
+  <div>57</div>
+  <div>58</div>
+  <div>59</div>
+  <div>60</div>
+  <div>61</div>
+  <div>62</div>
+  <div>63</div>
+  <div>64</div>
+  <div>65</div>
+  <div>66</div>
+  <div>67</div>
+  <div>68</div>
+  <div>69</div>
+  <div>70</div>
+  <div>71</div>
+  <div>72</div>
+  <div>73</div>
+  <div>74</div>
+  <div>75</div>
+  <div>76</div>
+  <div>77</div>
+  <div>78</div>
+  <div>79</div>
+  <div>80</div>
+  <div>81</div>
+  <div>82</div>
+  <div>83</div>
+  <div>84</div>
+  <div>85</div>
+  <div>86</div>
+  <div>87</div>
+  <div>88</div>
+  <div>89</div>
+  <div>90</div>
+  <div>91</div>
+  <div>92</div>
+  <div>93</div>
+  <div>94</div>
+  <div>95</div>
+  <div>96</div>
+  <div>97</div>
+  <div>98</div>
+  <div>99</div>
+</body>
 </html>
