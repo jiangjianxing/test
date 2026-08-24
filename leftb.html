@@ -10,6 +10,7 @@
   <p>os.isMiniSDK: <strong id="isMiniSDK"></strong></p>
 
   <button onclick="callNative()">调用 setLeftBtn.navigator</button>
+  <button onclick="callNative()">强制调用 setLeftBtn.navigator</button>
 
   <pre id="log"></pre>
 
@@ -81,6 +82,30 @@
         }
       } else {
         log('Not MiniSDK environment, native call skipped');
+      }
+    }
+
+    function doCallNative() {
+      if (os.isIOS) {
+        if (
+          window.webkit &&
+          window.webkit.messageHandlers &&
+          window.webkit.messageHandlers.WKWebViewJavascriptBridge
+        ) {
+          window.webkit.messageHandlers.WKWebViewJavascriptBridge.postMessage(uri);
+          log('iOS postMessage called');
+        } else {
+          log('iOS bridge not found');
+        }
+      } else if (os.isAndroid) {
+        if (uri.length > 1048576) {
+          log('PARAMETER_INVALID: uri.length > 1048576');
+        } else if (window.MiniSDKInterface && window.MiniSDKInterface.callNative) {
+          window.MiniSDKInterface.callNative(uri);
+          log('Android callNative called');
+        } else {
+          log('Android bridge not found');
+        }
       }
     }
   </script>
