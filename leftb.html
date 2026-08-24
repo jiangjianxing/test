@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>MiniSDK Test</title>
+</head>
+<body>
+  <h3>MiniSDK Test</h3>
+
+  <p>os.isMiniSDK: <strong id="isMiniSDK"></strong></p>
+
+  <button onclick="callNative()">调用 setLeftBtn.navigator</button>
+
+  <pre id="log"></pre>
+
+  <script>
+    // 固定 URL
+    const uri = 'minisdkJSBridge://setLeftBtn.navigator/CCEGShZAn-meFRbAAAI?%7B%22isShow%22%3A1%2C%22text%22%3A%22%E6%88%BB%E3%82%8B%22%2C%22color%22%3A%22%23182987%22%7D';
+
+    const ua = navigator.userAgent;
+
+    const android = ua.match(/(Android);?[\s/]+([\d.]+)?/);
+    const iphone = ua.match(/(iPhone\sOS)\s([\d_]+)/);
+    const ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
+    const miniSDK = ua.match(/MiniSDK\/([\d.]+) App\/([\d.]+)/);
+
+    const os = {
+      isAndroid: !!android,
+      isIOS: !!iphone || !!ipad,
+      isWebBrowser: !miniSDK,
+      isMiniSDK: !!miniSDK,
+      isDesktop: !android && !iphone && !ipad
+    };
+
+    document.getElementById('isMiniSDK').innerText = String(os.isMiniSDK);
+
+    function log(message) {
+      document.getElementById('log').innerText += message + '\n';
+      console.log(message);
+    }
+
+    function callNative() {
+      log('UserAgent: ' + ua);
+      log('os.isMiniSDK: ' + os.isMiniSDK);
+      log('uri: ' + uri);
+
+      if (os.isMiniSDK) {
+        if (os.isIOS) {
+          if (
+            window.webkit &&
+            window.webkit.messageHandlers &&
+            window.webkit.messageHandlers.WKWebViewJavascriptBridge
+          ) {
+            window.webkit.messageHandlers.WKWebViewJavascriptBridge.postMessage(uri);
+            log('iOS postMessage called');
+          } else {
+            log('iOS bridge not found');
+          }
+        } else if (os.isAndroid) {
+          if (uri.length > 1048576) {
+            log('PARAMETER_INVALID: uri.length > 1048576');
+          } else if (window.MiniSDKInterface && window.MiniSDKInterface.callNative) {
+            window.MiniSDKInterface.callNative(uri);
+            log('Android callNative called');
+          } else {
+            log('Android bridge not found');
+          }
+        } else {
+          log('Scheme(' + decodeURIComponent(uri) + ') only works on Android or iOS');
+
+          if (
+            window.minisdkJSBridge &&
+            minisdkJSBridge.onResponse &&
+            minisdkJSBridge.lastResponseId
+          ) {
+            minisdkJSBridge.onResponse(
+              minisdkJSBridge.lastResponseId,
+              JSON.stringify({ success: true, data: {} })
+            );
+          }
+        }
+      } else {
+        log('Not MiniSDK environment, native call skipped');
+      }
+    }
+  </script>
+</body>
+</html>
